@@ -13,7 +13,7 @@ st.set_page_config(
 # --- SIDEBAR: API KEY CONFIGURATION ---
 with st.sidebar:
     st.header("🔑 API Configuration")
-    openai_key = st.text_input("OpenAI API Key", type="password", help="Enter your OpenAI API key to enable Smart ICAO Search")
+    openai_key = st.text_input("OpenAI API Key", type="password", help="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")
     st.caption("This key is handled locally and is not stored externally.")
 
 # 2. HEADER: TIME ZONES ONLY (NATIVE IMPLEMENTATION)
