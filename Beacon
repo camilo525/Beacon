@@ -170,3 +170,6 @@ with bottom_logo_col2:
         caption="",
         use_container_width=True
     )
+
+
+# Forzar sincronizacion del servidor operacional BEACON 2026
