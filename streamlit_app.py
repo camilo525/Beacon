@@ -1,31 +1,33 @@
 import streamlit as st
 from datetime import datetime, timedelta
-import requests
 
 # 1. PAGE CONFIGURATION
 st.set_page_config(
     page_title="Beacon | Flight Support Command Center",
-    page_icon="🧭",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# --- SIDEBAR: API KEY CONFIGURATION ---
-with st.sidebar:
-    st.header("🔑 API Configuration")
-    openai_key = st.text_input("OpenAI API Key", type="password", help="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")
-    st.caption("This key is handled locally and is not stored externally.")
+# --- THRUST LOGO (TOP CENTERING) ---
+top_logo_col1, top_logo_col2, top_logo_col3 = st.columns([1, 1, 1])
+with top_logo_col2:
+    st.image(
+        "https://thrust-aviation.com/wp-content/uploads/2024/02/Logo-White-500-2-e1710003051285.png",
+        use_container_width=True
+    )
 
-# 2. HEADER: TIME ZONES ONLY (NATIVE IMPLEMENTATION)
+# TITLE & HEADER
+st.markdown("<h1 style='text-align: center; margin-top: -20px;'>🧭 BEACON</h1>", unsafe_allowed_html=True)
+st.markdown("<p style='text-align: center; color: #94A3B8;'>The centralized operations hub for Flight Support.</p>", unsafe_allowed_html=True)
+st.write("---")
+
+# 2. HEADER: TIME ZONES ONLY
 now_utc = datetime.utcnow()
 edt = now_utc - timedelta(hours=4)
 cdt = now_utc - timedelta(hours=5)
 mdt = now_utc - timedelta(hours=6)
 pdt = now_utc - timedelta(hours=7)
-
-st.title("🧭 BEACON")
-st.caption("The centralized operations hub for Flight Support.")
-st.write("---")
 
 # Render Clocks Layout natively using standard metrics blocks
 c1, c2, c3, c4, c5 = st.columns(5)
@@ -42,45 +44,31 @@ with c5:
 
 st.write("---")
 
-# --- QUICK ICAO SEARCH SECTION ---
-st.markdown("### 🔍 Smart ICAO Search")
-icao_input = st.text_input("Enter Airport Code", placeholder="e.g., KJFK, MMUN, LEMD").upper().strip()
+# --- STANDARD ICAO SEARCH SECTION ---
+st.markdown("### 🔍 Standard Airport Search")
+icao_input = st.text_input("Enter Airport ICAO Code", placeholder="e.g., KJFK, MMUN, LEMD").upper().strip()
 
 if icao_input:
-    if not openai_key:
-        st.warning("⚠️ Please provide your OpenAI API Key in the left sidebar to use the Smart Search feature.")
+    if len(icao_input) >= 3:
+        with st.container(border=True):
+            st.subheader(f"📊 Live Dispatch Links for: {icao_input}")
+            st.write("Select a link below to instantly view real-time weather, TAFs, FBO directories, and chart data:")
+            
+            link_col1, link_col2, link_col3, link_col4 = st.columns(4)
+            with link_col1:
+                st.link_button("📑 METAR & TAF Weather", f"https://metar-taf.com/{icao_input}", use_container_width=True, type="primary")
+            with link_col2:
+                st.link_button("🛬 FlightAware Portal", f"https://www.flightaware.com/resources/airport/{icao_input}", use_container_width=True)
+            with link_col3:
+                st.link_button("🗺️ SkyVector Charts", f"https://skyvector.com/airport/{icao_input}", use_container_width=True)
+            with link_col4:
+                st.link_button("📡 Live Ground Radar", f"https://www.flightradar24.com/data/airports/{icao_input.lower()}", use_container_width=True)
     else:
-        with st.spinner(f"Querying intelligence for {icao_input}..."):
-            try:
-                headers = {
-                    "Authorization": f"Bearer {openai_key}",
-                    "Content-Type": "application/json"
-                }
-                payload = {
-                    "model": "gpt-4o",
-                    "messages": [
-                        {"role": "system", "content": "You are an expert dispatch assistant for high-tier Flight Support operations."},
-                        {"role": "user", "content": f"Provide comprehensive aviation operational data for {icao_input}. Include: 1) General Airport Info & Operating Hours, 2) Estimated Current Weather & TAF trends, 3) Available FBOs on field, and 4) Notable Operational constraints. Format cleanly using bullet points and bold titles."}
-                    ],
-                    "temperature": 0.3
-                }
-                response = requests.post("https://api.openai.com/v1/chat/completions", json=payload, headers=headers)
-                
-                if response.status_code == 200:
-                    ai_data = response.json()['choices'][0]['message']['content']
-                    
-                    # Native high-visibility container
-                    with st.container(border=True):
-                        st.subheader(f"🎒 Beacon Intel Report: {icao_input}")
-                        st.markdown(ai_data)
-                else:
-                    st.error(f"OpenAI API Error: {response.status_code} - {response.text}")
-            except Exception as e:
-                st.error(f"An unexpected tracking error occurred: {str(e)}")
+        st.warning("Please enter a valid airport code (e.g., standard 3 or 4 letter identifiers).")
 
 st.write("##")
 
-# 3. MAIN DASHBOARD LAYOUT (3-COLUMN GRID USING NATIVE BORDERS)
+# 3. MAIN DASHBOARD LAYOUT (3-COLUMN GRID)
 col_left, col_center, col_right = st.columns([1, 1, 1], gap="large")
 
 # --- LEFT COLUMN: INTERNAL PROPRIETARY APPS ---
@@ -119,20 +107,12 @@ with col_center:
 with col_right:
     st.subheader("⛈️ Real-Time Weather Center")
     
-    # 1. Main Action Button for the Weather Underground Infrared Map
     with st.container(border=True):
         st.markdown("#### 🛰️ Weather Underground Radar")
         st.caption("Access the Regional Infrared Tracking Matrix directly.")
-        st.link_button(
-            "🚀 Launch Regional Infrared Map", 
-            "https://www.wunderground.com/maps/satellite/regional-infrared", 
-            type="primary", 
-            use_container_width=True
-        )
+        st.link_button("🚀 Launch Regional Infrared Map", "https://www.wunderground.com/maps/satellite/regional-infrared", type="primary", use_container_width=True)
     
     st.write("##")
-    
-    # 2. Live Back-up Window (Using standard FAA/NWS radar systems that allow direct embedding)
     st.markdown("**Live National Base Radar Loop**")
     st.components.v1.iframe(
         src="https://embed.windy.com/embed2.html?lat=39.50&lon=-98.35&zoom=4&level=surface&overlay=radar&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&metricWind=kt&metricTemp=%C2%B0F&radarRange=-1",
@@ -145,3 +125,15 @@ with col_right:
     st.link_button("📑 TAF / METAR Regional Search", "https://metar-taf.com/?c=158495.-809033.4#google_vignette", use_container_width=True)
     st.link_button("🌀 National Hurricane Center (NHC)", "https://www.nhc.noaa.gov/", use_container_width=True)
     st.link_button("🗺️ NWS National Forecast Maps", "https://www.weather.gov/forecastmaps/", use_container_width=True)
+
+st.write("---")
+st.write("##")
+
+# --- ARGUS LOGO (BOTTOM CENTERING) ---
+bottom_logo_col1, bottom_logo_col2, bottom_logo_col3 = st.columns([1, 0.4, 1])
+with bottom_logo_col2:
+    st.image(
+        "https://static.wixstatic.com/media/5f5db0_d7471efb590b4734a38048043fb3b2c1~mv2.png/v1/fill/w_300,h_300,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/FBO%20Audit%20Logo%20Silver.png",
+        caption="ARGUS Platinum Certified",
+        use_container_width=True
+    )
