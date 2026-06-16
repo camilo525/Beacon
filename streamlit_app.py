@@ -18,7 +18,7 @@ with top_logo_col2:
     )
 
 # NATIVE APP TITLE & CAPTION (No HTML strings to break the app)
-st.title("🧭 BEACON")
+st.title("BEACON")
 st.caption("The centralized operations hub for Flight Support.")
 st.write("---")
 
