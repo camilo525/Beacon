@@ -106,7 +106,7 @@ col_left, col_center, col_right = st.columns([1, 1, 1], gap="large")
 
 # --- LEFT COLUMN: INTERNAL PROPRIETARY APPS ---
 with col_left:
-    st.subheader("🛠️ Proprietary Apps")
+    st.subheader("🛠️ Thrust Aviation Ecosystem")
     
     with st.container(border=True):
         st.markdown("#### 🛡️ Operational Mission Assessment")
@@ -116,7 +116,7 @@ with col_left:
     st.write(" ")
     with st.container(border=True):
         st.markdown("#### ✉️ Client Communications Newsletter")
-        st.caption("Communications script matrix and updates dispatch tool.")
+        st.caption("Communications newsletter tool.")
         st.link_button("Open Communications Portal", "https://thrust-aviation-flightsupport-scripts.streamlit.app/", use_container_width=True)
     
     st.write(" ")
