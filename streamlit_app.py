@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 # 1. PAGE CONFIGURATION
 st.set_page_config(
     page_title="Beacon | Flight Support Command Center",
-    page_icon="🧭",
+   
     layout="wide",
     initial_sidebar_state="collapsed"
 )
