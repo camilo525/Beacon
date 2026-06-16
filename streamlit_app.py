@@ -19,7 +19,7 @@ with top_logo_col2:
 
 # CLEAN MANAGEMENT SUB-HEADER
 st.markdown("##  **BEACON**")
-st.caption("Flight Support Central Command Hub • Thrust Aviation Enterprise Operations")
+st.caption("Flight Support Central Command Hub")
 st.divider()
 
 # 2. CHRONOMETER SUITE (GLOBAL OPERATIONS MATRIX)
