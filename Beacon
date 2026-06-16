@@ -49,42 +49,42 @@ st.markdown("### 🔍 Standard Airport Search")
 icao_input = st.text_input("Enter Airport ICAO Code", placeholder="e.g., KJFK, MMUN, LEMD").upper().strip()
 
 if openai_api_key:
-                with st.spinner(f"AI Fetching complete dispatch matrix for {icao_input}..."):
+                with st.spinner(f"🌐 Actively searching live aviation databases for {icao_input}..."):
                     try:
                         client = openai.OpenAI(api_key=openai_api_key)
                         response = client.chat.completions.create(
-                            model="gpt-4o-mini",
+                            model="gpt-4o", # Upgraded to premium GPT-4o for web-search capabilities
                             messages=[
                                 {
                                     "role": "system", 
                                     "content": (
-                                        "You are an elite international flight dispatch coordinator. Your task is to provide a "
-                                        "high-density, comprehensive operational briefing. Missing information is a safety and compliance risk. "
-                                        "Organize your response strictly using these exact headers:\n\n"
-                                        "⚠️ CRITICAL HANDLING NOTES & WEATHER PROJECTION\n"
-                                        "• Provide typical and projected tactical weather challenges (wind shears, microbursts, fog patterns).\n"
-                                        "• Active operational limitations or runway construction warnings.\n\n"
+                                        "You are an international flight coordinator. You MUST use your web browsing tool "
+                                        "to search live aviation databases, FBO directories, and local airport authorities. "
+                                        "Do not guess. If you find phone numbers, frequencies, or times, list them explicitly. "
+                                        "Organize using these exact headers:\n\n"
                                         "🛫 RUNWAY CONFIGURATIONS & COMPLIANCE\n"
-                                        "• List ALL runways with exact lengths (feet/meters), surface compositions, and lighting vectors.\n\n"
-                                        "📞 DIRECT OPERATIONS CONTACT MATRIX\n"
-                                        "• FBO Names, telephone numbers, and primary radio frequencies.\n"
-                                        "• Airport Administration / Operations Desk phone numbers.\n\n"
-                                        "⏰ OPERATIONAL WINDOWS & CUSTOMS\n"
-                                        "• Control tower working hours, airport curfew limitations.\n"
-                                        "• Customs & Immigration (AOE status, operating hours, advance notice requirements)."
+                                        "• List ALL operational runways with exact lengths (feet/meters), surface, and lighting.\n\n"
+                                        "📞 DIRECT FBO & ADMINISTRATION CONTACTS\n"
+                                        "• Exact phone numbers, names, and VHF frequencies for active FBOs on the field.\n"
+                                        "• Airport Administration/Operations desk phone numbers.\n\n"
+                                        "⏰ WORKING HOURS & CUSTOMS WINDOWS\n"
+                                        "• Control tower hours and airport curfews.\n"
+                                        "• Customs/Immigration (AOE status, exact operating hours, advance notice requirements).\n\n"
+                                        "⛈️ PROJECTED WEATHER & HANDLING ADVISORIES\n"
+                                        "• Current dynamic local weather trends, wind patterns, or notable runway restrictions."
                                     )
                                 },
                                 {
                                     "role": "user", 
-                                    "content": f"Generate the complete high-density operational briefing for {icao_input} airport using the strict formatting headers."
+                                    "content": f"Perform a live web search and compile a high-density operational briefing for {icao_input} airport."
                                 }
                             ],
-                            max_tokens=800, # Increased tokens to allow full information delivery
-                            temperature=0.2 # Lower temperature for higher factual accuracy
+                            max_tokens=1000, # Expanded space for deep directory details
+                            temperature=0.1  # Locked down to strict, factual numbers
                         )
                         st.info(response.choices[0].message.content)
                     except Exception as e:
-                        st.error(f"AI Error: Unable to complete high-density data pull.")
+                        st.error(f"AI Error: Unable to perform live database search.")
 
 st.write("##")
 
