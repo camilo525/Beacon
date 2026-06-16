@@ -150,6 +150,6 @@ bottom_logo_col1, bottom_logo_col2, bottom_logo_col3 = st.columns([1, 0.4, 1])
 with bottom_logo_col2:
     st.image(
         "https://static.wixstatic.com/media/5f5db0_d7471efb590b4734a38048043fb3b2c1~mv2.png/v1/fill/w_300,h_300,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/FBO%20Audit%20Logo%20Silver.png",
-        caption="ARGUS Platinum Certified Operational Center",
+        caption="Flight Operations & Standardization Office",
         use_container_width=True
     )
