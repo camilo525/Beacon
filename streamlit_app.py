@@ -1,6 +1,11 @@
 import streamlit as st
 from datetime import datetime, timedelta
 
+
+
+# Clean, safe title variables
+APP_TITLE = "🧭 BEACON"
+APP_SUBTITLE = "The centralized operations hub for Flight Support."
 # 1. PAGE CONFIGURATION
 st.set_page_config(
     page_title="Beacon | Flight Support Command Center",
@@ -8,11 +13,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
-# Clean, safe title variables
-APP_TITLE = "🧭 BEACON"
-APP_SUBTITLE = "The centralized operations hub for Flight Support."
-
 # Render main titles natively 
 st.title(APP_TITLE)
 st.caption(APP_SUBTITLE)
