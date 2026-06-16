@@ -96,4 +96,44 @@ with col_left:
 with col_center:
     st.subheader("✈️ Airspace Control & Status")
     
-    st.link_
+    st.link_button("🌐 Graphic TFRs (FAA List)", "https://tfr.faa.gov/tfr3/?page=list", use_container_width=True)
+    st.link_button("📡 National Airspace System Status (NAS)", "https://nasstatus.faa.gov/", use_container_width=True)
+    st.link_button("🗺️ Flight Radar 24 Sector Map", "https://www.flightradar24.com/39.81,-75.86/8", use_container_width=True)
+    st.link_button("📊 FlightAware Tracking Portal", "https://www.flightaware.com/es-ES", use_container_width=True)
+    st.link_button("🗃️ FAA NOTAM Data Center", "https://notams.aim.faa.gov/notamSearch/", use_container_width=True)
+    st.link_button("✈️ AOPA Destinations & Airports Center", "https://aopa.org/destinations/?t=airports&_gl=1*6m0wou*_gcl_au*MTI4MDE3NzQzNC4xNzc3OTg3Nzk3*_ga*MjgxMDY5NjQ4LjE3Nzc5ODc3ODA.*_ga_SM42H3BVW5*czE3Nzc5ODc3ODAkbzEkZzEkdDE3Nzc5ODc5NzEkajYwJGwwJGgxMTMyNjg1NTQz", use_container_width=True)
+
+# --- RIGHT COLUMN: METEOROLOGY & FORECASTS ---
+with col_right:
+    st.subheader("⛈️ Real-Time Weather Center")
+    
+    with st.container(border=True):
+        st.markdown("#### 🛰️ Weather Underground Radar")
+        st.caption("Access the Regional Infrared Tracking Matrix directly.")
+        st.link_button("🚀 Launch Regional Infrared Map", "https://www.wunderground.com/maps/satellite/regional-infrared", type="primary", use_container_width=True)
+    
+    st.write("##")
+    st.markdown("**Live National Base Radar Loop**")
+    st.components.v1.iframe(
+        src="https://embed.windy.com/embed2.html?lat=39.50&lon=-98.35&zoom=4&level=surface&overlay=radar&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&metricWind=kt&metricTemp=%C2%B0F&radarRange=-1",
+        height=300,
+        scrolling=False
+    )
+    
+    st.write("##")
+    st.markdown("**Meteorological Dashboards**")
+    st.link_button("📑 TAF / METAR Regional Search", "https://metar-taf.com/?c=158495.-809033.4#google_vignette", use_container_width=True)
+    st.link_button("🌀 National Hurricane Center (NHC)", "https://www.nhc.noaa.gov/", use_container_width=True)
+    st.link_button("🗺️ NWS National Forecast Maps", "https://www.weather.gov/forecastmaps/", use_container_width=True)
+
+st.write("---")
+st.write("##")
+
+# --- ARGUS LOGO (BOTTOM CENTERING) ---
+bottom_logo_col1, bottom_logo_col2, bottom_logo_col3 = st.columns([1, 0.4, 1])
+with bottom_logo_col2:
+    st.image(
+        "https://static.wixstatic.com/media/5f5db0_d7471efb590b4734a38048043fb3b2c1~mv2.png/v1/fill/w_300,h_300,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/FBO%20Audit%20Logo%20Silver.png",
+        caption="ARGUS Platinum Certified",
+        use_container_width=True
+    )
