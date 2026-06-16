@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 # 1. PAGE CONFIGURATION
 st.set_page_config(
     page_title="Beacon | Flight Support Command Center",
-    page_icon="🧭",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -18,7 +18,7 @@ with top_logo_col2:
     )
 
 # NATIVE TITLE & DESCRIPTION (Fixed to eliminate telemetry TypeErrors)
-st.title("🧭 BEACON")
+st.title("BEACON")
 st.caption("The centralized operations hub for Flight Support.")
 st.write("---")
 
@@ -49,42 +49,55 @@ st.markdown("### 🔍 Standard Airport Search")
 icao_input = st.text_input("Enter Airport ICAO Code", placeholder="e.g., KJFK, MMUN, LEMD").upper().strip()
 
 if openai_api_key:
-                with st.spinner(f"🌐 Actively searching live aviation databases for {icao_input}..."):
+                with st.spinner(f"🌐 Running live deep-dive aviation search for {icao_input}..."):
                     try:
                         client = openai.OpenAI(api_key=openai_api_key)
                         response = client.chat.completions.create(
-                            model="gpt-4o", # Upgraded to premium GPT-4o for web-search capabilities
+                            model="gpt-4o", # Flagship model with live web-browsing capabilities
                             messages=[
                                 {
                                     "role": "system", 
                                     "content": (
-                                        "You are an international flight coordinator. You MUST use your web browsing tool "
-                                        "to search live aviation databases, FBO directories, and local airport authorities. "
-                                        "Do not guess. If you find phone numbers, frequencies, or times, list them explicitly. "
-                                        "Organize using these exact headers:\n\n"
-                                        "🛫 RUNWAY CONFIGURATIONS & COMPLIANCE\n"
-                                        "• List ALL operational runways with exact lengths (feet/meters), surface, and lighting.\n\n"
-                                        "📞 DIRECT FBO & ADMINISTRATION CONTACTS\n"
-                                        "• Exact phone numbers, names, and VHF frequencies for active FBOs on the field.\n"
-                                        "• Airport Administration/Operations desk phone numbers.\n\n"
-                                        "⏰ WORKING HOURS & CUSTOMS WINDOWS\n"
-                                        "• Control tower hours and airport curfews.\n"
-                                        "• Customs/Immigration (AOE status, exact operating hours, advance notice requirements).\n\n"
-                                        "⛈️ PROJECTED WEATHER & HANDLING ADVISORIES\n"
-                                        "• Current dynamic local weather trends, wind patterns, or notable runway restrictions."
+                                        "You are an elite international flight dispatch coordinator. Your job is to perform a live web search "
+                                        "to extract precise, un-summarized data for the requested airport. If a specific piece of data "
+                                        "is completely unavailable via search, write '[DATA NOT FOUND VIA SEARCH]' instead of a generic guess.\n\n"
+                                        "Format your response exactly according to this structured blueprint:\n\n"
+                                        "📍 GEOGRAPHIC LOCATION PROFILE\n"
+                                        "• City:\n"
+                                        "• State / Province:\n"
+                                        "• Country:\n"
+                                        "• Field Elevation (ft/m):\n\n"
+                                        "🛫 RUNWAY CONFIGURATIONS & DIMENSIONS\n"
+                                        "• Total Number of Active Runways:\n"
+                                        "• Detailed Runway Matrix (List each runway designation with its exact length, width, and surface type):\n\n"
+                                        "⏰ TIMING & OPERATIONAL HOURS\n"
+                                        "• Airport Operational Hours:\n"
+                                        "• Control Tower Operating Window:\n"
+                                        "• Airport Curfews / Restrictions:\n\n"
+                                        "🛃 CUSTOMS & IMMIGRATION PROTOCOLS\n"
+                                        "• Customs Availability (Yes/No):\n"
+                                        "• Customs Operating Hours:\n"
+                                        "• Advance Notice / Prior Permission Required (PPR) details:\n\n"
+                                        "📞 FBO DIRECTORY & HANDLING DESKS\n"
+                                        "• Active FBO Names on field:\n"
+                                        "• FBO Direct Phone Numbers & VHF Frequencies:\n"
+                                        "• Airport Administration/Operations Phone Number:\n\n"
+                                        "☀️ CURRENT SEASONAL WEATHER OUTLOOK & HANDLING NOTES\n"
+                                        "• Projected seasonal weather trends (e.g., convective activity, high density altitude, strong crosswinds, fog patterns) typical right now.\n"
+                                        "• Extra critical local handling or safety notices."
                                     )
                                 },
                                 {
                                     "role": "user", 
-                                    "content": f"Perform a live web search and compile a high-density operational briefing for {icao_input} airport."
+                                    "content": f"Execute a live web search and generate the itemized dispatch blueprint for airport: {icao_input}."
                                 }
                             ],
-                            max_tokens=1000, # Expanded space for deep directory details
-                            temperature=0.1  # Locked down to strict, factual numbers
+                            max_tokens=1200, # Expanded to ensure zero data clipping
+                            temperature=0.1  # Grounded to absolute objective data strings
                         )
                         st.info(response.choices[0].message.content)
                     except Exception as e:
-                        st.error(f"AI Error: Unable to perform live database search.")
+                        st.error(f"AI Error: Unable to perform high-density live database search.")
 
 st.write("##")
 
