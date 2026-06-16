@@ -1,0 +1,71 @@
+import streamlit as st
+from datetime import datetime, timedelta
+import time
+
+# 1. Page Configuration
+st.set_page_config(
+    page_title="Beacon | Flight Support Command Center",
+    page_icon="🧭",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# 2. Custom CSS styling for an aviation cockpit theme (Dark Mode)
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        .main { background-color: #0B0F19; color: #E2E8F0; }
+        .clock-box {
+            background-color: #1E293B;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #334155;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .clock-gmt {
+            background-color: #0284C7;
+            border: 1px solid #38BDF8;
+        }
+        .clock-title { font-size: 0.85rem; color: #94A3B8; font-weight: bold; text-transform: uppercase; }
+        .clock-time { font-size: 1.6rem; font-weight: 700; color: #FFFFFF; margin-top: 4px; }
+        .app-card {
+            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #38BDF8;
+            margin-bottom: 15px;
+        }
+    </style>
+""", unsafe_allowed_html=True)
+
+# 3. HEADER SECTION: Live Clocks
+st.title("🧭 BEACON")
+st.caption("The centralized operations hub for Flight Support.")
+
+# Calculate times (Streamlit reruns on interaction to update)
+now_utc = datetime.utcnow()
+edt = now_utc - timedelta(hours=4)
+cdt = now_utc - timedelta(hours=5)
+mdt = now_utc - timedelta(hours=6)
+pdt = now_utc - timedelta(hours=7)
+
+# Render Clocks in Columns
+c1, c2, c3, c4, c5 = st.columns(5)
+
+with c1:
+    st.markdown(f'<div class="clock-box clock-gmt"><div class="clock-title" style="color:#E0F2FE;">GMT / UTC</div><div class="clock-time">{now_utc.strftime("%H:%M:%S")} Z</div></div>', unsafe_allowed_html=True)
+with c2:
+    st.markdown(f'<div class="clock-box"><div class="clock-title">Eastern (EDT)</div><div class="clock-time">{edt.strftime("%H:%M:%S")}</div></div>', unsafe_allowed_html=True)
+with c3:
+    st.markdown(f'<div class="clock-box"><div class="clock-title">Central (CDT)</div><div class="clock-time">{cdt.strftime("%H:%M:%S")}</div></div>', unsafe_allowed_html=True)
+with c4:
+    st.markdown(f'<div class="clock-box"><div class="clock-title">Mountain (MDT)</div><div class="clock-time">{mdt.strftime("%H:%M:%S")}</div></div>', unsafe_allowed_html=True)
+with c5:
+    st.markdown(f'<div class="clock-box"><div class="clock-title">Pacific (PDT)</div><div class="clock-time">{pdt.strftime("%H:%M:%S")}</div></div>', unsafe_allowed_html=True)
+
+st.divider()
+
+# 4. MAIN LAYOUT: 3-Column Grid
+col_left, col_center, col_right = st.columns([1, 1, 1], gap="
