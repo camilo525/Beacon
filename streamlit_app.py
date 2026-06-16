@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 # 1. MANAGEMENT APP CONFIGURATION
 st.set_page_config(
     page_title="BEACON | Operational Command Center",
-    page_icon="🧭",
+    page_icon=":globe_with_meridians:",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -18,7 +18,7 @@ with top_logo_col2:
     )
 
 # CLEAN MANAGEMENT SUB-HEADER
-st.markdown("## 🧭 **BEACON**")
+st.markdown("##  **BEACON**")
 st.caption("Flight Support Central Command Hub • Thrust Aviation Enterprise Operations")
 st.divider()
 
