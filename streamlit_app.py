@@ -119,20 +119,26 @@ with col_center:
 with col_right:
     st.subheader("⛈️ Real-Time Weather Center")
     
-    st.markdown("**GOES Infrared Cloud Phase (Band 11 Loop)**")
-    
-    # Enlace directo al archivo animado auto-actualizable de la Banda 11 de NOAA
-    st.image(
-        "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/11/GOES16-CONUS-11-600x600.gif",
-        caption="Live GOES Band 11 Satellite Loop",
-        use_container_width=True
-    )
+    # 1. Main Action Button for the Weather Underground Infrared Map
+    with st.container(border=True):
+        st.markdown("#### 🛰️ Weather Underground Radar")
+        st.caption("Access the Regional Infrared Tracking Matrix directly.")
+        st.link_button(
+            "🚀 Launch Regional Infrared Map", 
+            "https://www.wunderground.com/maps/satellite/regional-infrared", 
+            type="primary", 
+            use_container_width=True
+        )
     
     st.write("##")
-    st.markdown("**Meteorological Dashboards**")
-    st.link_button("📑 TAF / METAR Regional Search", "https://metar-taf.com/?c=158495.-809033.4#google_vignette", use_container_width=True)
-    st.link_button("🌀 National Hurricane Center (NHC)", "https://www.nhc.noaa.gov/", use_container_width=True)
-    st.link_button("🗺️ NWS National Forecast Maps", "https://www.weather.gov/forecastmaps/", use_container_width=True)
+    
+    # 2. Live Back-up Window (Using standard FAA/NWS radar systems that allow direct embedding)
+    st.markdown("**Live National Base Radar Loop**")
+    st.components.v1.iframe(
+        src="https://embed.windy.com/embed2.html?lat=39.50&lon=-98.35&zoom=4&level=surface&overlay=radar&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&metricWind=kt&metricTemp=%C2%B0F&radarRange=-1",
+        height=300,
+        scrolling=False
+    )
     
     st.write("##")
     st.markdown("**Meteorological Dashboards**")
