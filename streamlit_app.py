@@ -119,12 +119,20 @@ with col_center:
 with col_right:
     st.subheader("⛈️ Real-Time Weather Center")
     
-    st.markdown("**GOES-East CONUS Satellite (Live)**")
-    st.components.v1.iframe(
-        src="https://www.star.nesdis.noaa.gov/GOES/conus_band.php?sat=G16&band=11&length=24",
-        height=380,
-        scrolling=True
+    st.markdown("**GOES Infrared Cloud Phase (Band 11 Loop)**")
+    
+    # Enlace directo al archivo animado auto-actualizable de la Banda 11 de NOAA
+    st.image(
+        "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/11/GOES16-CONUS-11-600x600.gif",
+        caption="Live GOES Band 11 Satellite Loop",
+        use_container_width=True
     )
+    
+    st.write("##")
+    st.markdown("**Meteorological Dashboards**")
+    st.link_button("📑 TAF / METAR Regional Search", "https://metar-taf.com/?c=158495.-809033.4#google_vignette", use_container_width=True)
+    st.link_button("🌀 National Hurricane Center (NHC)", "https://www.nhc.noaa.gov/", use_container_width=True)
+    st.link_button("🗺️ NWS National Forecast Maps", "https://www.weather.gov/forecastmaps/", use_container_width=True)
     
     st.write("##")
     st.markdown("**Meteorological Dashboards**")
