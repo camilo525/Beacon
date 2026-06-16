@@ -13,7 +13,7 @@ st.set_page_config(
 # --- SIDEBAR: API KEY CONFIGURATION ---
 with st.sidebar:
     st.header("🔑 API Configuration")
-    openai_key = st.text_input("OpenAI API Key", type="password", help="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")
+    openai_key = st.text_input("OpenAI API Key", type="password", help="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")
     st.caption("This key is handled locally and is not stored externally.")
 
 # 2. HEADER: TIME ZONES ONLY (NATIVE IMPLEMENTATION)
