@@ -9,24 +9,16 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- THRUST LOGO (TOP CENTERING) ---
-top_logo_col1, top_logo_col2, top_logo_col3 = st.columns([1, 1, 1])
-with top_logo_col2:
-    st.image(
-        "https://thrust-aviation.com/wp-content/uploads/2024/02/Logo-White-500-2-e1710003051285.png",
-        use_container_width=True
-    )
-
-st.markdown("<h1 style='text-align: center; margin-top: -20px;'>🧭 BEACON</h1>", unsafe_allowed_html=True)
-st.markdown("<p style='text-align: center; color: #94A3B8;'>The centralized operations hub for Flight Support.</p>", unsafe_allowed_html=True)
-st.write("---")
-
 # 2. HEADER: TIME ZONES ONLY
 now_utc = datetime.utcnow()
 edt = now_utc - timedelta(hours=4)
 cdt = now_utc - timedelta(hours=5)
 mdt = now_utc - timedelta(hours=6)
 pdt = now_utc - timedelta(hours=7)
+
+st.title("🧭 BEACON")
+st.caption("The centralized operations hub for Flight Support.")
+st.write("---")
 
 # Render Clocks Layout natively using standard metrics blocks
 c1, c2, c3, c4, c5 = st.columns(5)
@@ -129,17 +121,11 @@ with col_center:
 with col_right:
     st.subheader("⛈️ Real-Time Weather Center")
     
-    with st.container(border=True):
-        st.markdown("#### 🛰️ Weather Underground Radar")
-        st.caption("Access the Regional Infrared Tracking Matrix directly.")
-        st.link_button("🚀 Launch Regional Infrared Map", "https://www.wunderground.com/maps/satellite/regional-infrared", type="primary", use_container_width=True)
-    
-    st.write("##")
-    st.markdown("**Live National Base Radar Loop**")
+    st.markdown("**GOES-East CONUS Satellite (Live)**")
     st.components.v1.iframe(
-        src="https://embed.windy.com/embed2.html?lat=39.50&lon=-98.35&zoom=4&level=surface&overlay=radar&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&metricWind=kt&metricTemp=%C2%B0F&radarRange=-1",
-        height=300,
-        scrolling=False
+        src="https://www.star.nesdis.noaa.gov/GOES/conus_band.php?sat=G16&band=11&length=24",
+        height=380,
+        scrolling=True
     )
     
     st.write("##")
@@ -147,15 +133,3 @@ with col_right:
     st.link_button("📑 TAF / METAR Regional Search", "https://metar-taf.com/?c=158495.-809033.4#google_vignette", use_container_width=True)
     st.link_button("🌀 National Hurricane Center (NHC)", "https://www.nhc.noaa.gov/", use_container_width=True)
     st.link_button("🗺️ NWS National Forecast Maps", "https://www.weather.gov/forecastmaps/", use_container_width=True)
-
-st.write("---")
-st.write("##")
-
-# --- ARGUS LOGO (BOTTOM CENTERING) ---
-bottom_logo_col1, bottom_logo_col2, bottom_logo_col3 = st.columns([1, 0.4, 1])
-with bottom_logo_col2:
-    st.image(
-        "https://static.wixstatic.com/media/5f5db0_d7471efb590b4734a38048043fb3b2c1~mv2.png/v1/fill/w_300,h_300,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/FBO%20Audit%20Logo%20Silver.png",
-        caption="ARGUS Platinum Certified",
-        use_container_width=True
-    )
