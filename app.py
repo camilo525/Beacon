@@ -10,50 +10,46 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. COCKPIT DARK THEME STYLING
-st.markdown("""
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-        
-        .clock-box {
-            background-color: #1E293B;
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #334155;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .clock-gmt {
-            background-color: #0284C7;
-            border: 1px solid #38BDF8;
-        }
-        .clock-title { font-size: 0.8rem; color: #94A3B8; font-weight: bold; text-transform: uppercase; }
-        .clock-time { font-size: 1.4rem; font-weight: 700; color: #FFFFFF; margin-top: 4px; }
-        
-        .app-card {
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #38BDF8;
-            margin-bottom: 12px;
-        }
-        .section-header {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #F8FAFC;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-        .intel-box {
-            background-color: #0F172A;
-            border: 2px solid #10B981;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-    </style>
-""", unsafe_allowed_html=True)
+# 2. COCKPIT DARK THEME STYLING (Fixed for Python 3.14 string parsing)
+css_style = """
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+    .clock-box {
+        background-color: #1E293B;
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #334155;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .clock-gmt { background-color: #0284C7; border: 1px solid #38BDF8; }
+    .clock-title { font-size: 0.8rem; color: #94A3B8; font-weight: bold; text-transform: uppercase; }
+    .clock-time { font-size: 1.4rem; font-weight: 700; color: #FFFFFF; margin-top: 4px; }
+    .app-card {
+        background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #38BDF8;
+        margin-bottom: 12px;
+    }
+    .section-header {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #F8FAFC;
+        border-bottom: 2px solid #334155;
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+    }
+    .intel-box {
+        background-color: #0F172A;
+        border: 2px solid #10B981;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 15px;
+    }
+</style>
+"""
+st.markdown(css_style, unsafe_allowed_html=True)
 
 # --- SIDEBAR: API KEY CONFIGURATION ---
 with st.sidebar:
@@ -108,8 +104,6 @@ if icao_input:
                 
                 if response.status_code == 200:
                     ai_data = response.json()['choices'][0]['message']['content']
-                    
-                    # High-visibility dedicated display container
                     st.markdown(f'<div class="intel-box">🎒 <b>Beacon Intel Report: {icao_input}</b></div>', unsafe_allowed_html=True)
                     st.info("Airport details generated successfully:")
                     st.markdown(ai_data)
