@@ -17,7 +17,7 @@ with top_logo_col2:
         use_container_width=True
     )
 
-# TITLE & HEADER (Corregido de forma nativa para evitar Python 3.14 TypeError)
+# NATIVE TITLE & DESCRIPTION (Fixed to eliminate telemetry TypeErrors)
 st.title("🧭 BEACON")
 st.caption("The centralized operations hub for Flight Support.")
 st.write("---")
