@@ -10,73 +10,37 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. COCKPIT DARK THEME STYLING (Fixed for Python 3.14 string parsing)
-css_style = """
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-    .clock-box {
-        background-color: #1E293B;
-        border-radius: 8px;
-        padding: 12px;
-        text-align: center;
-        border: 1px solid #334155;
-        font-family: 'JetBrains Mono', monospace;
-    }
-    .clock-gmt { background-color: #0284C7; border: 1px solid #38BDF8; }
-    .clock-title { font-size: 0.8rem; color: #94A3B8; font-weight: bold; text-transform: uppercase; }
-    .clock-time { font-size: 1.4rem; font-weight: 700; color: #FFFFFF; margin-top: 4px; }
-    .app-card {
-        background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #38BDF8;
-        margin-bottom: 12px;
-    }
-    .section-header {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: #F8FAFC;
-        border-bottom: 2px solid #334155;
-        padding-bottom: 8px;
-        margin-bottom: 15px;
-    }
-    .intel-box {
-        background-color: #0F172A;
-        border: 2px solid #10B981;
-        padding: 20px;
-        border-radius: 8px;
-        margin-top: 15px;
-    }
-</style>
-"""
-st.markdown(css_style, unsafe_allowed_html=True)
-
 # --- SIDEBAR: API KEY CONFIGURATION ---
 with st.sidebar:
     st.header("🔑 API Configuration")
     openai_key = st.text_input("OpenAI API Key", type="password", help="Enter your OpenAI API key to enable Smart ICAO Search")
     st.caption("This key is handled locally and is not stored externally.")
 
-# 3. HEADER: TIME ZONES ONLY
+# 2. HEADER: TIME ZONES ONLY (NATIVE IMPLEMENTATION)
 now_utc = datetime.utcnow()
 edt = now_utc - timedelta(hours=4)
 cdt = now_utc - timedelta(hours=5)
 mdt = now_utc - timedelta(hours=6)
 pdt = now_utc - timedelta(hours=7)
 
+st.title("🧭 BEACON")
+st.caption("The centralized operations hub for Flight Support.")
+st.write("---")
+
+# Render Clocks Layout natively using standard metrics blocks
 c1, c2, c3, c4, c5 = st.columns(5)
 with c1:
-    st.markdown(f'<div class="clock-box clock-gmt"><div class="clock-title" style="color:#E0F2FE;">GMT / UTC</div><div class="clock-time">{now_utc.strftime("%H:%M")} Z</div></div>', unsafe_allowed_html=True)
+    st.metric(label="GMT / UTC", value=f"{now_utc.strftime('%H:%M')} Z")
 with c2:
-    st.markdown(f'<div class="clock-box"><div class="clock-title">Eastern (EDT)</div><div class="clock-time">{edt.strftime("%H:%M")}</div></div>', unsafe_allowed_html=True)
+    st.metric(label="Eastern (EDT)", value=edt.strftime("%H:%M"))
 with c3:
-    st.markdown(f'<div class="clock-box"><div class="clock-title">Central (CDT)</div><div class="clock-time">{cdt.strftime("%H:%M")}</div></div>', unsafe_allowed_html=True)
+    st.metric(label="Central (CDT)", value=cdt.strftime("%H:%M"))
 with c4:
-    st.markdown(f'<div class="clock-box"><div class="clock-title">Mountain (MDT)</div><div class="clock-time">{mdt.strftime("%H:%M")}</div></div>', unsafe_allowed_html=True)
+    st.metric(label="Mountain (MDT)", value=mdt.strftime("%H:%M"))
 with c5:
-    st.markdown(f'<div class="clock-box"><div class="clock-title">Pacific (PDT)</div><div class="clock-time">{pdt.strftime("%H:%M")}</div></div>', unsafe_allowed_html=True)
+    st.metric(label="Pacific (PDT)", value=pdt.strftime("%H:%M"))
 
-st.write("##")
+st.write("---")
 
 # --- QUICK ICAO SEARCH SECTION ---
 st.markdown("### 🔍 Smart ICAO Search")
@@ -104,10 +68,11 @@ if icao_input:
                 
                 if response.status_code == 200:
                     ai_data = response.json()['choices'][0]['message']['content']
-                    st.markdown(f'<div class="intel-box">🎒 <b>Beacon Intel Report: {icao_input}</b></div>', unsafe_allowed_html=True)
-                    st.info("Airport details generated successfully:")
-                    st.markdown(ai_data)
-                    st.divider()
+                    
+                    # Native high-visibility container
+                    with st.container(border=True):
+                        st.subheader(f"🎒 Beacon Intel Report: {icao_input}")
+                        st.markdown(ai_data)
                 else:
                     st.error(f"OpenAI API Error: {response.status_code} - {response.text}")
             except Exception as e:
@@ -115,27 +80,33 @@ if icao_input:
 
 st.write("##")
 
-# 4. MAIN DASHBOARD LAYOUT (3-COLUMN GRID)
+# 3. MAIN DASHBOARD LAYOUT (3-COLUMN GRID USING NATIVE BORDERS)
 col_left, col_center, col_right = st.columns([1, 1, 1], gap="large")
 
 # --- LEFT COLUMN: INTERNAL PROPRIETARY APPS ---
 with col_left:
-    st.markdown('<div class="section-header">🛠️ Proprietary Apps</div>', unsafe_allowed_html=True)
+    st.subheader("🛠️ Proprietary Apps")
     
-    st.markdown('<div class="app-card"><h4>🛡️ Operational Mission Assessment</h4><p style="font-size:0.85rem; color:#94A3B8;">Risk assessment and operational feasibility tool.</p></div>', unsafe_allowed_html=True)
-    st.link_button("Launch Mission Assessment", "https://thrust-aviation-flightsupport-weather-assessment.streamlit.app/", type="primary", use_container_width=True)
-    st.write("#")
+    with st.container(border=True):
+        st.markdown("#### 🛡️ Operational Mission Assessment")
+        st.caption("Risk assessment and operational feasibility tool.")
+        st.link_button("Launch Mission Assessment", "https://thrust-aviation-flightsupport-weather-assessment.streamlit.app/", type="primary", use_container_width=True)
     
-    st.markdown('<div class="app-card" style="border-left-color: #F59E0B;"><h4>✉️ Client Communications Newsletter</h4><p style="font-size:0.85rem; color:#94A3B8;">Communications script matrix and updates dispatch tool.</p></div>', unsafe_allowed_html=True)
-    st.link_button("Open Communications Portal", "https://thrust-aviation-flightsupport-scripts.streamlit.app/", use_container_width=True)
-    st.write("#")
+    st.write(" ")
+    with st.container(border=True):
+        st.markdown("#### ✉️ Client Communications Newsletter")
+        st.caption("Communications script matrix and updates dispatch tool.")
+        st.link_button("Open Communications Portal", "https://thrust-aviation-flightsupport-scripts.streamlit.app/", use_container_width=True)
     
-    st.markdown('<div class="app-card" style="border-left-color: #10B981;"><h4>📄 Contracts Assessment</h4><p style="font-size:0.85rem; color:#94A3B8;">Contract compliance and regulatory validation.</p></div>', unsafe_allowed_html=True)
-    st.link_button("Open Contracts Engine", "https://thrust-contract-compliance.streamlit.app/", use_container_width=True)
+    st.write(" ")
+    with st.container(border=True):
+        st.markdown("#### 📄 Contracts Assessment")
+        st.caption("Contract compliance and regulatory validation.")
+        st.link_button("Open Contracts Engine", "https://thrust-contract-compliance.streamlit.app/", use_container_width=True)
 
 # --- CENTER COLUMN: AIRSPACE CONTROL SYSTEM ---
 with col_center:
-    st.markdown('<div class="section-header">✈️ Airspace Control & Status</div>', unsafe_allowed_html=True)
+    st.subheader("✈️ Airspace Control & Status")
     
     st.link_button("🌐 Graphic TFRs (FAA List)", "https://tfr.faa.gov/tfr3/?page=list", use_container_width=True)
     st.link_button("📡 National Airspace System Status (NAS)", "https://nasstatus.faa.gov/", use_container_width=True)
@@ -146,7 +117,7 @@ with col_center:
 
 # --- RIGHT COLUMN: METEOROLOGY & FORECASTS ---
 with col_right:
-    st.markdown('<div class="section-header">⛈️ Real-Time Weather Center</div>', unsafe_allowed_html=True)
+    st.subheader("⛈️ Real-Time Weather Center")
     
     st.markdown("**GOES-East CONUS Satellite (Live)**")
     st.components.v1.iframe(
