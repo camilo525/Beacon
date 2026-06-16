@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 # 1. PAGE CONFIGURATION
 st.set_page_config(
     page_title="Beacon | Flight Support Command Center",
-    page_icon="",
+    page_icon=":globe_with_meridians:",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -18,7 +18,7 @@ with top_logo_col2:
     )
 
 # NATIVE TITLE & DESCRIPTION (Fixed to eliminate telemetry TypeErrors)
-st.title("BEACON")
+st.title(":globe_with_meridians:BEACON")
 st.caption("The centralized operations hub for Flight Support.")
 st.write("---")
 
